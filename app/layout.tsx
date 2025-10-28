@@ -6,6 +6,7 @@ import Script from "next/script"
 import "./globals.css"
 import { LanguageProvider } from "@/lib/language-context"
 import { ThemeProvider } from "@/lib/theme-context"
+import { useEffect, useState } from "react"
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -53,7 +54,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "ca_ES",
     alternateLocale: ["es_ES", "en_US", "fr_FR", "de_DE", "it_IT", "pt_PT", "nl_NL", "sv_SE"],
-    url: "https://ema.cat",
+    url: "https://ema-assistant.github.io/",
     siteName: "EMA",
     title: "EMA - Companyia Emocional amb IA per a Gent Gran",
     description:
@@ -74,17 +75,17 @@ export const metadata: Metadata = {
     images: ["/og-image.png"],
   },
   alternates: {
-    canonical: "https://ema.cat",
+    canonical: "https://ema-assistant.github.io/",
     languages: {
-      ca: "https://ema.cat/ca",
-      es: "https://ema.cat/es",
-      en: "https://ema.cat/en",
-      fr: "https://ema.cat/fr",
-      de: "https://ema.cat/de",
-      it: "https://ema.cat/it",
-      pt: "https://ema.cat/pt",
-      nl: "https://ema.cat/nl",
-      sv: "https://ema.cat/sv",
+      ca: "https://ema-assistant.github.io/ca",
+      es: "https://ema-assistant.github.io/es",
+      en: "https://ema-assistant.github.io/en",
+      fr: "https://ema-assistant.github.io/fr",
+      de: "https://ema-assistant.github.io/de",
+      it: "https://ema-assistant.github.io/it",
+      pt: "https://ema-assistant.github.io/pt",
+      nl: "https://ema-assistant.github.io/nl",
+      sv: "https://ema-assistant.github.io/sv",
     },
   },
   verification: {
@@ -99,8 +100,19 @@ export default function RootLayout({
 }>) {
   const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID
 
+  // Idioma principal: catalán por defecto, pero se ajusta al del navegador
+  const [lang, setLang] = useState('ca')
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const browserLang = window.navigator.language?.split('-')[0] || 'ca'
+      setLang(browserLang)
+      document.documentElement.lang = browserLang
+    }
+  }, [])
+
   return (
-    <html lang="ca">
+    <html lang={lang}>
       <head>
         {GA_MEASUREMENT_ID && (
           <>
