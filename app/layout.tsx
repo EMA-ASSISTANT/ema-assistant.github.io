@@ -1,37 +1,36 @@
-import type React from "react"
-import type { Metadata } from "next"
-import { Poppins } from "next/font/google"
-import { Analytics } from "@vercel/analytics/next"
-import Script from "next/script"
-import "./globals.css"
-import { LanguageProvider } from "@/lib/language-context"
-import { ThemeProvider } from "@/lib/theme-context"
-import { useEffect, useState } from "react"
+import type React from "react";
+import type { Metadata } from "next";
+import { Poppins } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
+import Script from "next/script";
+import "./globals.css";
+import { LanguageProvider } from "@/lib/language-context";
+import { ThemeProvider } from "@/lib/theme-context";
+import { HtmlLangSetter } from "./HtmlLangSetter"; // Añade el componente cliente
 
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
   variable: "--font-poppins",
-})
+});
 
 export const metadata: Metadata = {
-  title: "EMA - Companyia Emocional amb IA per a Gent Gran | Assistent de Veu Intel·ligent",
+  title: "EMA - Compañía Emocional con IA para Personas Mayores | Asistente de Voz Inteligente",
   description:
-    "EMA és un assistent de veu amb intel·ligència artificial dissenyat per proporcionar companyia emocional a persones grans que viuen soles. Basat en investigació científica, EMA ofereix converses naturals per combatre la solitud.",
+    "EMA es un asistente de voz con inteligencia artificial diseñado para proporcionar compañía emocional a personas mayores que viven solas. Basado en investigación científica, EMA ofrece conversaciones naturales para combatir la soledad.",
   generator: "v0.app",
   keywords: [
     "IA",
-    "intel·ligència artificial",
-    "gent gran",
-    "persones grans",
-    "companyia emocional",
-    "assistent de veu",
-    "solitud",
-    "benestar emocional",
-    "salut mental",
-    "tercera edat",
-    "acompanyament",
-    "tecnologia per gent gran",
+    "inteligencia artificial",
+    "personas mayores",
+    "compañía emocional",
+    "asistente de voz",
+    "soledad",
+    "bienestar emocional",
+    "salud mental",
+    "tercera edad",
+    "acompañamiento",
+    "tecnología para mayores",
     "AI companion",
     "elderly care",
     "emotional support",
@@ -52,33 +51,33 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    locale: "ca_ES",
-    alternateLocale: ["es_ES", "en_US", "fr_FR", "de_DE", "it_IT", "pt_PT", "nl_NL", "sv_SE"],
+    locale: "es_ES",
+    alternateLocale: ["ca_ES", "en_US", "fr_FR", "de_DE", "it_IT", "pt_PT", "nl_NL", "sv_SE"],
     url: "https://ema-assistant.github.io/",
     siteName: "EMA",
-    title: "EMA - Companyia Emocional amb IA per a Gent Gran",
+    title: "EMA - Compañía Emocional con IA para Personas Mayores",
     description:
-      "Assistent de veu amb intel·ligència artificial per proporcionar companyia emocional a persones grans que viuen soles. Úneix-te a la BETA.",
+      "Asistente de voz con IA para compañía emocional de personas mayores que viven solas. Únete a la BETA.",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "EMA - Companyia Emocional amb IA",
+        alt: "EMA - Compañía Emocional con IA",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "EMA - Companyia Emocional amb IA per a Gent Gran",
-    description: "Assistent de veu amb IA per proporcionar companyia emocional a persones grans. Úneix-te a la BETA.",
+    title: "EMA - Compañía Emocional con IA para Personas Mayores",
+    description: "Asistente de voz con IA para proporcionar compañía emocional a personas mayores. Únete a la BETA.",
     images: ["/og-image.png"],
   },
   alternates: {
     canonical: "https://ema-assistant.github.io/",
     languages: {
-      ca: "https://ema-assistant.github.io/ca",
       es: "https://ema-assistant.github.io/es",
+      ca: "https://ema-assistant.github.io/ca",
       en: "https://ema-assistant.github.io/en",
       fr: "https://ema-assistant.github.io/fr",
       de: "https://ema-assistant.github.io/de",
@@ -91,28 +90,15 @@ export const metadata: Metadata = {
   verification: {
     google: "ADD_YOUR_GOOGLE_VERIFICATION_CODE_HERE",
   },
-}
+};
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
-  const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID
-
-  // Idioma principal: catalán por defecto, pero se ajusta al del navegador
-  const [lang, setLang] = useState('ca')
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const browserLang = window.navigator.language?.split('-')[0] || 'ca'
-      setLang(browserLang)
-      document.documentElement.lang = browserLang
-    }
-  }, [])
+}: Readonly<{ children: React.ReactNode }>) {
+  const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
   return (
-    <html lang={lang}>
+    <html lang="es">
       <head>
         {GA_MEASUREMENT_ID && (
           <>
@@ -140,7 +126,7 @@ export default function RootLayout({
             name: "EMA",
             applicationCategory: "HealthApplication",
             description:
-              "Assistent de veu amb intel·ligència artificial per proporcionar companyia emocional a persones grans que viuen soles",
+              "Asistente de voz con inteligencia artificial para proporcionar compañía emocional a personas mayores que viven solas",
             operatingSystem: "All",
             offers: {
               "@type": "Offer",
@@ -160,8 +146,9 @@ export default function RootLayout({
         <ThemeProvider>
           <LanguageProvider>{children}</LanguageProvider>
         </ThemeProvider>
+        <HtmlLangSetter /> {/* Cambia lang solo visible en el cliente */}
         <Analytics />
       </body>
     </html>
-  )
+  );
 }
