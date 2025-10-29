@@ -1,7 +1,6 @@
 import type React from "react";
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
-import { Analytics } from "@vercel/analytics/next";
 import Script from "next/script";
 import "./globals.css";
 import { LanguageProvider } from "@/lib/language-context";
@@ -147,7 +146,6 @@ export default function RootLayout({
           <LanguageProvider>{children}</LanguageProvider>
         </ThemeProvider>
         <HtmlLangSetter /> {/* Cambia lang solo visible en el cliente */}
-        <Analytics />
       </body>
     </html>
   );
