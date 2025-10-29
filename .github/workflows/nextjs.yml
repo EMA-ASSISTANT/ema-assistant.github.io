@@ -40,7 +40,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nextjs-
 
-      # ¡¡Paso clave nuevo!!
+      # 📌 PASO CLAVE, asegúrate que es justo antes del build
       - name: Inject .env.local from GitHub secrets
         run: |
           echo "NEXT_PUBLIC_GOOGLE_SHEETS_URL=${{ secrets.NEXT_PUBLIC_GOOGLE_SHEETS_URL }}" >> .env.local
@@ -49,12 +49,10 @@ jobs:
       - name: Install dependencies
         run: npm install --legacy-peer-deps
 
-      - name: Build with Next.js
+      - name: Build with Next.js (output: 'export')
         run: npm run build
 
-      # <<< Paso eliminado: npm run export <<<
-
-      - name: Upload artifact
+      - name: Upload static site artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./out
